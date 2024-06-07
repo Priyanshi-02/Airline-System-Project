@@ -15,6 +15,32 @@
       align-items: center;
       height: 100vh;
     }
+    footer {
+background-color: #003366;
+color: white;
+text-align: center;
+padding: 10px 0;
+position: fixed;
+width: 100%;
+bottom: 0;
+}
+header {
+background-color: #003366;
+color: white;
+padding: 10px 0;
+position: absolute;
+top: 0;
+width: 100vw;
+}
+.list{
+display: flex;
+align-items: center;
+list-style-type: none;
+color: white;
+gap: 20px;
+ 
+}
+
     
    .container {
       background-color: #fff;
@@ -58,6 +84,20 @@
   </style>
 </head>
 <body>
+  <header>
+    <div class="header">
+        <h1>Airline Management System</h1>
+        <nav>
+            <ul class="list">
+                <li ><a  style="color: white;  text-decoration: none;" href="index.html">Home</a></li>
+                <li ><a  style="color: white;  text-decoration: none;" href="about.html">About Us</a></li>
+                <li><a style="color: white; text-decoration: none;" href="airline.html">Login</a></li>
+                <li><a style="color: white; text-decoration: none;"href="book6.html">Flights</a></li>
+                <li><a style="color: white; text-decoration: none;"href="contact2.html">Contact</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
   <div class="container">
     <h1>Payment</h1>
     <div class="form-group">
@@ -89,5 +129,10 @@
       }, 2000);
     }
   </script>
+  <footer>
+    <div class="footer">
+        <p>&copy; 2024 Airline Management System. All rights reserved.</p>
+    </div>
+  </footer>
 </body>
 </html>
