@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login and Registration</title>
+  <style>
+    body {
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      background-image:url(https://jetinternational.com/wp-content/uploads/2016/11/iStock-177708665-5.jpg);
+      background-size: cover;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      
+    }
+    
+    .container {
+      width: 320px;
+      padding: 30px;
+      background-color: transparent;
+      border-radius: 8px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .form {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .form input {
+      margin-bottom: 15px;
+      padding: 10px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+    }
+
+    .form button {
+      padding: 12px;
+      border: none;
+      background-color: #0077cc;
+      color: #fff;
+      cursor: pointer;
+      border-radius: 4px;
+      transition: background-color 0.3s;
+      font-size: 16px;
+    }
+
+    .form button:hover {
+      background-color: #005299;
+    }
+
+    .switch-btn {
+      margin-top: 20px;
+      text-align: center;
+    }
+
+.switch-btn button {
+  background: none;
+  border: none;
+  color: #0077cc;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.switch-btn button:hover {
+  text-decoration: underline;
+}
+footer {
+background-color: #003366;
+color: white;
+text-align: center;
+padding: 10px 0;
+position: fixed;
+width: 100%;
+bottom: 0;
+}
+header {
+background-color: #003366;
+color: white;
+padding: 10px 0;
+position: absolute;
+top: 0;
+width: 100vw;
+}
+.list{
+display: flex;
+align-items: center;
+list-style-type: none;
+color: white;
+gap: 20px;
+ 
+}
+
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header">
+        <h1>Airline Management System</h1>
+        <nav>
+            <ul class="list">
+                <li ><a  style="color: white;  text-decoration: none;" href="index.html">Home</a></li>
+                <li ><a  style="color: white;  text-decoration: none;" href="about.html">About Us</a></li>
+                <li><a style="color: white; text-decoration: none;" href="airline.html">Login</a></li>
+                <li><a style="color: white; text-decoration: none;"href="book6.html">Flights</a></li>
+                <li><a style="color: white; text-decoration: none;"href="contact2.html">Contact</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+<div class="container">
+  <div class="form" id="login-form">
+    <h2 style="text-align: center; margin-bottom: 20px;">Login</h2>
+    <input type="text" placeholder="Username" id="login-username">
+    <input type="password" placeholder="Password" id="login-password">
+    <button onclick="login()">Login</button>
+  </div>
+  <div class="form" id="register-form" style="display: none;">
+    <h2 style="text-align: center; margin-bottom: 20px;">Register</h2>
+    <input type="text" placeholder="Username" id="register-username">
+    <input type="password" placeholder="Password" id="register-password">
+    <button onclick="register()">Register</button>
+  </div>
+
+  <div class="switch-btn">
+    <button onclick="toggleForm('login')">Login</button> /
+    <button onclick="toggleForm('register')">Register</button>
+  </div>
+</div>
+
+
+<script>
+  // Array to store registered users
+  var registeredUsers = [];
+
+  function toggleForm(form) {
+    if (form === 'login') {
+      document.getElementById('login-form').style.display = 'block';
+      document.getElementById('register-form').style.display = 'none';
+    } else {
+      document.getElementById('login-form').style.display = 'none';
+      document.getElementById('register-form').style.display = 'block';
+    }
+  }
+
+  function login() {
+    var username = document.getElementById('login-username').value;
+    var password = document.getElementById('login-password').value;
+
+    // Check if the user is registered
+    var user = registeredUsers.find(u => u.username === username && u.password === password);
+    if (user) {
+      console.log('Logged in:', user.username);
+      window.alert('Logged in successfully!');
+      window.location.href = 'book5.html';
+    } else {
+      console.log('Invalid username or password');
+      window.alert('Invalid username or password');
+    }
+  }
+
+  function register() {
+    var username = document.getElementById('register-username').value;
+    var password = document.getElementById('register-password').value;
+
+    // Add user to the registered users array
+    registeredUsers.push({ username: username, password: password });
+
+    console.log('Registered:', username);
+    window.alert('Registered successfully!');
+  }
+</script>
+<footer>
+  <div class="footer">
+      <p>&copy; 2024 Airline Management System. All rights reserved.</p>
+  </div>
+</footer>
+</body>
+</html>

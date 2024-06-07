@@ -1,0 +1,1942 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Flight Checker</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f0f0;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    footer {
+background-color: #003366;
+color: white;
+text-align: center;
+padding: 10px 0;
+position: fixed;
+width: 100%;
+bottom: 0;
+}
+header {
+background-color: #003366;
+color: white;
+padding: 10px 0;
+position: absolute;
+top: 0;
+width: 100vw;
+}
+.list{
+display: flex;
+align-items: center;
+list-style-type: none;
+color: white;
+gap: 20px;
+ 
+}
+    
+   .container {
+      background-color: #fff;
+      padding: 20px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      border-radius: 5px;
+      width: 400px;
+      text-align: center;
+    }
+    
+   .form-group {
+      margin-bottom: 20px;
+    }
+    
+   .form-group select {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    
+   .form-group input[type="date"] {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    
+    button {
+      padding: 10px 20px;
+      border: none;
+      background-color: #007bff;
+      color: #fff;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+    
+    button:hover {
+      background-color: #0056b3;
+    }
+    
+    #flights {
+      margin-top: 20px;
+    }
+    
+   .flight {
+      background-color: #f9f9f9;
+      padding: 10px;
+      border: 1px solid #ddd;
+      margin-bottom: 10px;
+      border-radius: 5px;
+    }
+    
+   .flight button {
+      padding: 5px 10px;
+      font-size: 12px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header">
+        <h1>Airline Management System</h1>
+        <nav>
+            <ul class="list">
+                <li ><a  style="color: white;  text-decoration: none;" href="index.html">Home</a></li>
+                <li ><a  style="color: white;  text-decoration: none;" href="about.html">About Us</a></li>
+                <li><a style="color: white; text-decoration: none;" href="airline.html">Login</a></li>
+                <li><a style="color: white; text-decoration: none;"href="book6.html">Flights</a></li>
+                <li><a style="color: white; text-decoration: none;"href="contact2.html">Contact</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+  <div class="container">
+    <h1>Flight Checker</h1>
+    <div class="form-group">
+      <select id="origin">
+        <option value="">Select Origin</option>
+        <option value="DELHI">DELHI</option>
+        <option value="JAIPUR">JAIPUR</option>
+        <option value="MUMBAI">MUMBAI</option>
+        <option value="BANGALORE">BANGALAORE</option>
+        
+      </select>
+      <select id="destination">
+        <option value="">Select Destination</option>
+        <option value="DELHI">DELHI</option>
+        <option value="JAIPUR">JAIPUR</option>
+        <option value="MUMBAI">MUMBAI</option>
+        <option value="BANGALORE">BANGALORE</option>
+       
+      </select>
+      <input type="date" id="date">
+      <button onclick="searchFlights()">Search Flights</button>
+    </div>
+    <div id="flights"></div>
+  </div>
+  <script>
+    // Simulated flight data
+    const flightData = [
+    {
+      flightNumber: 'AA101',
+      departureTime: '08:00 AM',
+      arrivalTime: '11:00 AM',
+      seatsAvailable: 20,
+      origin: 'DELHI',
+      destination: 'JAIPUR',
+      date: '2024-06-17'
+    },
+    {
+      flightNumber: 'BA202',
+      departureTime: '10:00 AM',
+      arrivalTime: '01:00 PM',
+      seatsAvailable: 15,
+      origin: 'DELHI',
+      destination: 'JAIPUR',
+      date: '2024-06-17'
+    },
+    {
+      flightNumber: 'CA303',
+      departureTime: '12:00 PM',
+      arrivalTime: '03:00 PM',
+      seatsAvailable: 25,
+      origin: 'DELHI',
+      destination: 'JAIPUR',
+      date: '2024-06-17'
+    },
+    {
+      flightNumber: 'DA404',
+      departureTime: '02:00 PM',
+      arrivalTime: '05:00 PM',
+      seatsAvailable: 10,
+      origin: 'DELHI',
+      destination: 'JAIPUR',
+      date: '2024-06-17'
+    },
+    {
+        flightNumber: 'AA101',
+        departureTime: '08:00 AM',
+        arrivalTime: '11:00 AM',
+        seatsAvailable: 20,
+        origin: 'DELHI',
+        destination: 'JAIPUR',
+        date: '2024-06-18'
+      },
+      {
+        flightNumber: 'BA202',
+        departureTime: '10:00 AM',
+        arrivalTime: '01:00 PM',
+        seatsAvailable: 15,
+        origin: 'DELHI',
+        destination: 'JAIPUR',
+        date: '2024-06-18'
+      },
+      {
+        flightNumber: 'CA303',
+        departureTime: '12:00 PM',
+        arrivalTime: '03:00 PM',
+        seatsAvailable: 25,
+        origin: 'DELHI',
+        destination: 'JAIPUR',
+        date: '2024-06-18'
+      },
+      {
+        flightNumber: 'DA404',
+        departureTime: '02:00 PM',
+        arrivalTime: '05:00 PM',
+        seatsAvailable: 10,
+        origin: 'DELHI',
+        destination: 'JAIPUR',
+        date: '2024-06-18'
+      },
+      {
+        flightNumber: 'AA101',
+        departureTime: '08:00 AM',
+        arrivalTime: '11:00 AM',
+        seatsAvailable: 20,
+        origin: 'DELHI',
+        destination: 'JAIPUR',
+        date: '2024-06-19'
+      },
+      {
+        flightNumber: 'BA202',
+        departureTime: '10:00 AM',
+        arrivalTime: '01:00 PM',
+        seatsAvailable: 15,
+        origin: 'DELHI',
+        destination: 'JAIPUR',
+        date: '2024-06-19'
+      },
+      {
+        flightNumber: 'CA303',
+        departureTime: '12:00 PM',
+        arrivalTime: '03:00 PM',
+        seatsAvailable: 25,
+        origin: 'DELHI',
+        destination: 'JAIPUR',
+        date: '2024-06-19'
+      },
+      {
+        flightNumber: 'DA404',
+        departureTime: '02:00 PM',
+        arrivalTime: '05:00 PM',
+        seatsAvailable: 10,
+        origin: 'DELHI',
+        destination: 'JAIPUR',
+        date: '2024-06-19'
+      },
+      {
+        flightNumber: 'AA101',
+        departureTime: '08:00 AM',
+        arrivalTime: '11:00 AM',
+        seatsAvailable: 20,
+        origin: 'DELHI',
+        destination: 'JAIPUR',
+        date: '2024-06-20'
+      },
+      {
+        flightNumber: 'BA202',
+        departureTime: '10:00 AM',
+        arrivalTime: '01:00 PM',
+        seatsAvailable: 15,
+        origin: 'DELHI',
+        destination: 'JAIPUR',
+        date: '2024-06-20'
+      },
+      {
+        flightNumber: 'CA303',
+        departureTime: '12:00 PM',
+        arrivalTime: '03:00 PM',
+        seatsAvailable: 25,
+        origin: 'DELHI',
+        destination: 'JAIPUR',
+        date: '2024-06-20'
+      },
+      {
+        flightNumber: 'DA404',
+        departureTime: '02:00 PM',
+        arrivalTime: '05:00 PM',
+        seatsAvailable: 10,
+        origin: 'DELHI',
+        destination: 'JAIPUR',
+        date: '2024-06-20'
+      },
+    //   DELHI TO BANGLORE
+    {
+        flightNumber: 'AA101',
+        departureTime: '08:00 AM',
+        arrivalTime: '11:00 AM',
+        seatsAvailable: 20,
+        origin: 'DELHI',
+        destination: 'BANGLORE',
+        date: '2024-06-17'
+      },
+      {
+        flightNumber: 'BA202',
+        departureTime: '10:00 AM',
+        arrivalTime: '01:00 PM',
+        seatsAvailable: 15,
+        origin: 'DELHI',
+        destination: 'BANGLORE',
+        date: '2024-06-17'
+      },
+      {
+        flightNumber: 'CA303',
+        departureTime: '12:00 PM',
+        arrivalTime: '03:00 PM',
+        seatsAvailable: 25,
+        origin: 'DELHI',
+        destination: 'BANGLORE',
+        date: '2024-06-17'
+      },
+      {
+        flightNumber: 'DA404',
+        departureTime: '02:00 PM',
+        arrivalTime: '05:00 PM',
+        seatsAvailable: 10,
+        origin: 'DELHI',
+        destination: 'BANGLORE',
+        date: '2024-06-17'
+      },
+      {
+          flightNumber: 'AA101',
+          departureTime: '08:00 AM',
+          arrivalTime: '11:00 AM',
+          seatsAvailable: 20,
+          origin: 'DELHI',
+          destination: 'BANGLORE',
+          date: '2024-06-18'
+        },
+        {
+          flightNumber: 'BA202',
+          departureTime: '10:00 AM',
+          arrivalTime: '01:00 PM',
+          seatsAvailable: 15,
+          origin: 'DELHI',
+          destination: 'BANGLORE',
+          date: '2024-06-18'
+        },
+        {
+          flightNumber: 'CA303',
+          departureTime: '12:00 PM',
+          arrivalTime: '03:00 PM',
+          seatsAvailable: 25,
+          origin: 'DELHI',
+          destination: 'BANGLORE',
+          date: '2024-06-18'
+        },
+        {
+          flightNumber: 'DA404',
+          departureTime: '02:00 PM',
+          arrivalTime: '05:00 PM',
+          seatsAvailable: 10,
+          origin: 'DELHI',
+          destination: 'BANGLORE',
+          date: '2024-06-18'
+        },
+        {
+          flightNumber: 'AA101',
+          departureTime: '08:00 AM',
+          arrivalTime: '11:00 AM',
+          seatsAvailable: 20,
+          origin: 'DELHI',
+          destination: 'BANGLORE',
+          date: '2024-06-19'
+        },
+        {
+          flightNumber: 'BA202',
+          departureTime: '10:00 AM',
+          arrivalTime: '01:00 PM',
+          seatsAvailable: 15,
+          origin: 'DELHI',
+          destination: 'BANGLORE',
+          date: '2024-06-19'
+        },
+        {
+          flightNumber: 'CA303',
+          departureTime: '12:00 PM',
+          arrivalTime: '03:00 PM',
+          seatsAvailable: 25,
+          origin: 'DELHI',
+          destination: 'BANGLORE',
+          date: '2024-06-19'
+        },
+        {
+          flightNumber: 'DA404',
+          departureTime: '02:00 PM',
+          arrivalTime: '05:00 PM',
+          seatsAvailable: 10,
+          origin: 'DELHI',
+          destination: 'BANGLORE',
+          date: '2024-06-19'
+        },
+        {
+          flightNumber: 'AA101',
+          departureTime: '08:00 AM',
+          arrivalTime: '11:00 AM',
+          seatsAvailable: 20,
+          origin: 'DELHI',
+          destination: 'BANGLORE',
+          date: '2024-06-20'
+        },
+        {
+          flightNumber: 'BA202',
+          departureTime: '10:00 AM',
+          arrivalTime: '01:00 PM',
+          seatsAvailable: 15,
+          origin: 'DELHI',
+          destination: 'BANGLORE',
+          date: '2024-06-20'
+        },
+        {
+          flightNumber: 'CA303',
+          departureTime: '12:00 PM',
+          arrivalTime: '03:00 PM',
+          seatsAvailable: 25,
+          origin: 'DELHI',
+          destination: 'BANGLORE',
+          date: '2024-06-20'
+        },
+        {
+          flightNumber: 'DA404',
+          departureTime: '02:00 PM',
+          arrivalTime: '05:00 PM',
+          seatsAvailable: 10,
+          origin: 'DELHI',
+          destination: 'BANGLORE',
+          date: '2024-06-20'
+        },
+        // DELHI TO MUMBAI
+        {
+            flightNumber: 'AA101',
+            departureTime: '08:00 AM',
+            arrivalTime: '11:00 AM',
+            seatsAvailable: 20,
+            origin: 'DELHI',
+            destination: 'MUMBAI',
+            date: '2024-06-17'
+          },
+          {
+            flightNumber: 'BA202',
+            departureTime: '10:00 AM',
+            arrivalTime: '01:00 PM',
+            seatsAvailable: 15,
+            origin: 'DELHI',
+            destination: 'MUMBAI',
+            date: '2024-06-17'
+          },
+          {
+            flightNumber: 'CA303',
+            departureTime: '12:00 PM',
+            arrivalTime: '03:00 PM',
+            seatsAvailable: 25,
+            origin: 'DELHI',
+            destination: 'MUMBAI',
+            date: '2024-06-17'
+          },
+          {
+            flightNumber: 'DA404',
+            departureTime: '02:00 PM',
+            arrivalTime: '05:00 PM',
+            seatsAvailable: 10,
+            origin: 'DELHI',
+            destination: 'MUMBAI',
+            date: '2024-06-17'
+          },
+          {
+              flightNumber: 'AA101',
+              departureTime: '08:00 AM',
+              arrivalTime: '11:00 AM',
+              seatsAvailable: 20,
+              origin: 'DELHI',
+              destination: 'MUMBAI',
+              date: '2024-06-18'
+            },
+            {
+              flightNumber: 'BA202',
+              departureTime: '10:00 AM',
+              arrivalTime: '01:00 PM',
+              seatsAvailable: 15,
+              origin: 'DELHI',
+              destination: 'MUMBAI',
+              date: '2024-06-18'
+            },
+            {
+              flightNumber: 'CA303',
+              departureTime: '12:00 PM',
+              arrivalTime: '03:00 PM',
+              seatsAvailable: 25,
+              origin: 'DELHI',
+              destination: 'MUMBAI',
+              date: '2024-06-18'
+            },
+            {
+              flightNumber: 'DA404',
+              departureTime: '02:00 PM',
+              arrivalTime: '05:00 PM',
+              seatsAvailable: 10,
+              origin: 'DELHI',
+              destination: 'MUMBAI',
+              date: '2024-06-18'
+            },
+            {
+              flightNumber: 'AA101',
+              departureTime: '08:00 AM',
+              arrivalTime: '11:00 AM',
+              seatsAvailable: 20,
+              origin: 'DELHI',
+              destination: 'MUMBAI',
+              date: '2024-06-19'
+            },
+            {
+              flightNumber: 'BA202',
+              departureTime: '10:00 AM',
+              arrivalTime: '01:00 PM',
+              seatsAvailable: 15,
+              origin: 'DELHI',
+              destination: 'MUMBAI',
+              date: '2024-06-19'
+            },
+            {
+              flightNumber: 'CA303',
+              departureTime: '12:00 PM',
+              arrivalTime: '03:00 PM',
+              seatsAvailable: 25,
+              origin: 'DELHI',
+              destination: 'MUMBAI',
+              date: '2024-06-19'
+            },
+            {
+              flightNumber: 'DA404',
+              departureTime: '02:00 PM',
+              arrivalTime: '05:00 PM',
+              seatsAvailable: 10,
+              origin: 'DELHI',
+              destination: 'MUMBAI',
+              date: '2024-06-19'
+            },
+            {
+              flightNumber: 'AA101',
+              departureTime: '08:00 AM',
+              arrivalTime: '11:00 AM',
+              seatsAvailable: 20,
+              origin: 'DELHI',
+              destination: 'MUMBAI',
+              date: '2024-06-20'
+            },
+            {
+              flightNumber: 'BA202',
+              departureTime: '10:00 AM',
+              arrivalTime: '01:00 PM',
+              seatsAvailable: 15,
+              origin: 'DELHI',
+              destination: 'MUMBAI',
+              date: '2024-06-20'
+            },
+            {
+              flightNumber: 'CA303',
+              departureTime: '12:00 PM',
+              arrivalTime: '03:00 PM',
+              seatsAvailable: 25,
+              origin: 'DELHI',
+              destination: 'MUMBAI',
+              date: '2024-06-20'
+            },
+            {
+              flightNumber: 'DA404',
+              departureTime: '02:00 PM',
+              arrivalTime: '05:00 PM',
+              seatsAvailable: 10,
+              origin: 'DELHI',
+              destination: 'MUMBAI',
+              date: '2024-06-20'
+            },
+            // JAIPUR TO DELHI
+            {
+                flightNumber: 'AA101',
+                departureTime: '08:00 AM',
+                arrivalTime: '11:00 AM',
+                seatsAvailable: 20,
+                origin: 'JAIPUR',
+                destination: 'MUMBAI',
+                date: '2024-06-17'
+              },
+              {
+                flightNumber: 'BA202',
+                departureTime: '10:00 AM',
+                arrivalTime: '01:00 PM',
+                seatsAvailable: 15,
+                origin: 'JAIPUR',
+                destination: 'MUMBAI',
+                date: '2024-06-17'
+              },
+              {
+                flightNumber: 'CA303',
+                departureTime: '12:00 PM',
+                arrivalTime: '03:00 PM',
+                seatsAvailable: 25,
+                origin: 'JAIPUR',
+                destination: 'MUMBAI',
+                date: '2024-06-17'
+              },
+              {
+                flightNumber: 'DA404',
+                departureTime: '02:00 PM',
+                arrivalTime: '05:00 PM',
+                seatsAvailable: 10,
+                origin: 'JAIPUR',
+                destination: 'MUMBAI',
+                date: '2024-06-17'
+              },
+              {
+                  flightNumber: 'AA101',
+                  departureTime: '08:00 AM',
+                  arrivalTime: '11:00 AM',
+                  seatsAvailable: 20,
+                  origin: 'JAIPUR',
+                  destination: 'MUMBAI',
+                  date: '2024-06-18'
+                },
+                {
+                  flightNumber: 'BA202',
+                  departureTime: '10:00 AM',
+                  arrivalTime: '01:00 PM',
+                  seatsAvailable: 15,
+                  origin: 'JAIPUR',
+                  destination: 'MUMBAI',
+                  date: '2024-06-18'
+                },
+                {
+                  flightNumber: 'CA303',
+                  departureTime: '12:00 PM',
+                  arrivalTime: '03:00 PM',
+                  seatsAvailable: 25,
+                  origin: 'JAIPUR',
+                  destination: 'MUMBAI',
+                  date: '2024-06-18'
+                },
+                {
+                  flightNumber: 'DA404',
+                  departureTime: '02:00 PM',
+                  arrivalTime: '05:00 PM',
+                  seatsAvailable: 10,
+                  origin: 'JAIPUR',
+                  destination: 'MUMBAI',
+                  date: '2024-06-18'
+                },
+                {
+                  flightNumber: 'AA101',
+                  departureTime: '08:00 AM',
+                  arrivalTime: '11:00 AM',
+                  seatsAvailable: 20,
+                  origin: 'JAIPUR',
+                  destination: 'MUMBAI',
+                  date: '2024-06-19'
+                },
+                {
+                  flightNumber: 'BA202',
+                  departureTime: '10:00 AM',
+                  arrivalTime: '01:00 PM',
+                  seatsAvailable: 15,
+                  origin: 'JAIPUR',
+                  destination: 'MUMBAI',
+                  date: '2024-06-19'
+                },
+                {
+                  flightNumber: 'CA303',
+                  departureTime: '12:00 PM',
+                  arrivalTime: '03:00 PM',
+                  seatsAvailable: 25,
+                  origin: 'JAIPUR',
+                  destination: 'MUMBAI',
+                  date: '2024-06-19'
+                },
+                {
+                  flightNumber: 'DA404',
+                  departureTime: '02:00 PM',
+                  arrivalTime: '05:00 PM',
+                  seatsAvailable: 10,
+                  origin: 'JAIPUR',
+                  destination: 'MUMBAI',
+                  date: '2024-06-19'
+                },
+                {
+                  flightNumber: 'AA101',
+                  departureTime: '08:00 AM',
+                  arrivalTime: '11:00 AM',
+                  seatsAvailable: 20,
+                  origin: 'JAIPUR',
+                  destination: 'MUMBAI',
+                  date: '2024-06-20'
+                },
+                {
+                  flightNumber: 'BA202',
+                  departureTime: '10:00 AM',
+                  arrivalTime: '01:00 PM',
+                  seatsAvailable: 15,
+                  origin: 'JAIPUR',
+                  destination: 'MUMBAI',
+                  date: '2024-06-20'
+                },
+                {
+                  flightNumber: 'CA303',
+                  departureTime: '12:00 PM',
+                  arrivalTime: '03:00 PM',
+                  seatsAvailable: 25,
+                  origin: 'JAIPUR',
+                  destination: 'MUMBAI',
+                  date: '2024-06-20'
+                },
+                {
+                  flightNumber: 'DA404',
+                  departureTime: '02:00 PM',
+                  arrivalTime: '05:00 PM',
+                  seatsAvailable: 10,
+                  origin: 'JAIPUR',
+                  destination: 'MUMBAI',
+                  date: '2024-06-20'
+                },
+                // JAIPUR TO DELHI
+                {
+                    flightNumber: 'AA101',
+                    departureTime: '08:00 AM',
+                    arrivalTime: '11:00 AM',
+                    seatsAvailable: 20,
+                    origin: 'JAIPUR',
+                    destination: 'DELHI',
+                    date: '2024-06-17'
+                  },
+                  {
+                    flightNumber: 'BA202',
+                    departureTime: '10:00 AM',
+                    arrivalTime: '01:00 PM',
+                    seatsAvailable: 15,
+                    origin: 'JAIPUR',
+                    destination: 'DELHI',
+                    date: '2024-06-17'
+                  },
+                  {
+                    flightNumber: 'CA303',
+                    departureTime: '12:00 PM',
+                    arrivalTime: '03:00 PM',
+                    seatsAvailable: 25,
+                    origin: 'JAIPUR',
+                    destination: 'DELHI',
+                    date: '2024-06-17'
+                  },
+                  {
+                    flightNumber: 'DA404',
+                    departureTime: '02:00 PM',
+                    arrivalTime: '05:00 PM',
+                    seatsAvailable: 10,
+                    origin: 'JAIPUR',
+                    destination: 'DELHI',
+                    date: '2024-06-17'
+                  },
+                  {
+                      flightNumber: 'AA101',
+                      departureTime: '08:00 AM',
+                      arrivalTime: '11:00 AM',
+                      seatsAvailable: 20,
+                      origin: 'JAIPUR',
+                      destination: 'DELHI',
+                      date: '2024-06-18'
+                    },
+                    {
+                      flightNumber: 'BA202',
+                      departureTime: '10:00 AM',
+                      arrivalTime: '01:00 PM',
+                      seatsAvailable: 15,
+                      origin: 'JAIPUR',
+                      destination: 'DELHI',
+                      date: '2024-06-18'
+                    },
+                    {
+                      flightNumber: 'CA303',
+                      departureTime: '12:00 PM',
+                      arrivalTime: '03:00 PM',
+                      seatsAvailable: 25,
+                      origin: 'JAIPUR',
+                      destination: 'DELHI',
+                      date: '2024-06-18'
+                    },
+                    {
+                      flightNumber: 'DA404',
+                      departureTime: '02:00 PM',
+                      arrivalTime: '05:00 PM',
+                      seatsAvailable: 10,
+                      origin: 'JAIPUR',
+                      destination: 'DELHI',
+                      date: '2024-06-18'
+                    },
+                    {
+                      flightNumber: 'AA101',
+                      departureTime: '08:00 AM',
+                      arrivalTime: '11:00 AM',
+                      seatsAvailable: 20,
+                      origin: 'JAIPUR',
+                      destination: 'DELHI',
+                      date: '2024-06-19'
+                    },
+                    {
+                      flightNumber: 'BA202',
+                      departureTime: '10:00 AM',
+                      arrivalTime: '01:00 PM',
+                      seatsAvailable: 15,
+                      origin: 'JAIPUR',
+                      destination: 'DELHI',
+                      date: '2024-06-19'
+                    },
+                    {
+                      flightNumber: 'CA303',
+                      departureTime: '12:00 PM',
+                      arrivalTime: '03:00 PM',
+                      seatsAvailable: 25,
+                      origin: 'JAIPUR',
+                      destination: 'DELHI',
+                      date: '2024-06-19'
+                    },
+                    {
+                      flightNumber: 'DA404',
+                      departureTime: '02:00 PM',
+                      arrivalTime: '05:00 PM',
+                      seatsAvailable: 10,
+                      origin: 'JAIPUR',
+                      destination: 'DELHI',
+                      date: '2024-06-19'
+                    },
+                    {
+                      flightNumber: 'AA101',
+                      departureTime: '08:00 AM',
+                      arrivalTime: '11:00 AM',
+                      seatsAvailable: 20,
+                      origin: 'JAIPUR',
+                      destination: 'DELHI',
+                      date: '2024-06-20'
+                    },
+                    {
+                      flightNumber: 'BA202',
+                      departureTime: '10:00 AM',
+                      arrivalTime: '01:00 PM',
+                      seatsAvailable: 15,
+                      origin: 'JAIPUR',
+                      destination: 'DELHI',
+                      date: '2024-06-20'
+                    },
+                    {
+                      flightNumber: 'CA303',
+                      departureTime: '12:00 PM',
+                      arrivalTime: '03:00 PM',
+                      seatsAvailable: 25,
+                      origin: 'JAIPUR',
+                      destination: 'DELHI',
+                      date: '2024-06-20'
+                    },
+                    {
+                      flightNumber: 'DA404',
+                      departureTime: '02:00 PM',
+                      arrivalTime: '05:00 PM',
+                      seatsAvailable: 10,
+                      origin: 'JAIPUR',
+                      destination: 'DELHI',
+                      date: '2024-06-20'
+                    },
+                    // JAIPUR TO BANGLORE
+                    {
+                        flightNumber: 'AA101',
+                        departureTime: '08:00 AM',
+                        arrivalTime: '11:00 AM',
+                        seatsAvailable: 20,
+                        origin: 'JAIPUR',
+                        destination: 'BANGLORE',
+                        date: '2024-06-17'
+                      },
+                      {
+                        flightNumber: 'BA202',
+                        departureTime: '10:00 AM',
+                        arrivalTime: '01:00 PM',
+                        seatsAvailable: 15,
+                        origin: 'JAIPUR',
+                        destination: 'BANGLORE',
+                        date: '2024-06-17'
+                      },
+                      {
+                        flightNumber: 'CA303',
+                        departureTime: '12:00 PM',
+                        arrivalTime: '03:00 PM',
+                        seatsAvailable: 25,
+                        origin: 'JAIPUR',
+                        destination: 'BANGLORE',
+                        date: '2024-06-17'
+                      },
+                      {
+                        flightNumber: 'DA404',
+                        departureTime: '02:00 PM',
+                        arrivalTime: '05:00 PM',
+                        seatsAvailable: 10,
+                        origin: 'JAIPUR',
+                        destination: 'BANGLORE',
+                        date: '2024-06-17'
+                      },
+                      {
+                          flightNumber: 'AA101',
+                          departureTime: '08:00 AM',
+                          arrivalTime: '11:00 AM',
+                          seatsAvailable: 20,
+                          origin: 'JAIPUR',
+                          destination: 'BANGLORE',
+                          date: '2024-06-18'
+                        },
+                        {
+                          flightNumber: 'BA202',
+                          departureTime: '10:00 AM',
+                          arrivalTime: '01:00 PM',
+                          seatsAvailable: 15,
+                          origin: 'JAIPUR',
+                          destination: 'BANGLORE',
+                          date: '2024-06-18'
+                        },
+                        {
+                          flightNumber: 'CA303',
+                          departureTime: '12:00 PM',
+                          arrivalTime: '03:00 PM',
+                          seatsAvailable: 25,
+                          origin: 'JAIPUR',
+                          destination: 'BANGLORE',
+                          date: '2024-06-18'
+                        },
+                        {
+                          flightNumber: 'DA404',
+                          departureTime: '02:00 PM',
+                          arrivalTime: '05:00 PM',
+                          seatsAvailable: 10,
+                          origin: 'JAIPUR',
+                          destination: 'BANGLORE',
+                          date: '2024-06-18'
+                        },
+                        {
+                          flightNumber: 'AA101',
+                          departureTime: '08:00 AM',
+                          arrivalTime: '11:00 AM',
+                          seatsAvailable: 20,
+                          origin: 'JAIPUR',
+                          destination: 'BANGLORE',
+                          date: '2024-06-19'
+                        },
+                        {
+                          flightNumber: 'BA202',
+                          departureTime: '10:00 AM',
+                          arrivalTime: '01:00 PM',
+                          seatsAvailable: 15,
+                          origin: 'JAIPUR',
+                          destination: 'BANGLORE',
+                          date: '2024-06-19'
+                        },
+                        {
+                          flightNumber: 'CA303',
+                          departureTime: '12:00 PM',
+                          arrivalTime: '03:00 PM',
+                          seatsAvailable: 25,
+                          origin: 'JAIPUR',
+                          destination: 'BANGLORE',
+                          date: '2024-06-19'
+                        },
+                        {
+                          flightNumber: 'DA404',
+                          departureTime: '02:00 PM',
+                          arrivalTime: '05:00 PM',
+                          seatsAvailable: 10,
+                          origin: 'JAIPUR',
+                          destination: 'BANGLORE',
+                          date: '2024-06-19'
+                        },
+                        {
+                          flightNumber: 'AA101',
+                          departureTime: '08:00 AM',
+                          arrivalTime: '11:00 AM',
+                          seatsAvailable: 20,
+                          origin: 'JAIPUR',
+                          destination: 'BANGLORE',
+                          date: '2024-06-20'
+                        },
+                        {
+                          flightNumber: 'BA202',
+                          departureTime: '10:00 AM',
+                          arrivalTime: '01:00 PM',
+                          seatsAvailable: 15,
+                          origin: 'JAIPUR',
+                          destination: 'BANGLORE',
+                          date: '2024-06-20'
+                        },
+                        {
+                          flightNumber: 'CA303',
+                          departureTime: '12:00 PM',
+                          arrivalTime: '03:00 PM',
+                          seatsAvailable: 25,
+                          origin: 'JAIPUR',
+                          destination: 'BANGLORE',
+                          date: '2024-06-20'
+                        },
+                        {
+                          flightNumber: 'DA404',
+                          departureTime: '02:00 PM',
+                          arrivalTime: '05:00 PM',
+                          seatsAvailable: 10,
+                          origin: 'JAIPUR',
+                          destination: 'BANGLORE',
+                          date: '2024-06-20'
+                        },
+                        // MUMBAI TO BANGLORE
+                        {
+                            flightNumber: 'AA101',
+                            departureTime: '08:00 AM',
+                            arrivalTime: '11:00 AM',
+                            seatsAvailable: 20,
+                            origin: 'MUMBAI',
+                            destination: 'BANGLORE',
+                            date: '2024-06-17'
+                          },
+                          {
+                            flightNumber: 'BA202',
+                            departureTime: '10:00 AM',
+                            arrivalTime: '01:00 PM',
+                            seatsAvailable: 15,
+                            origin: 'MUMBAI',
+                            destination: 'BANGLORE',
+                            date: '2024-06-17'
+                          },
+                          {
+                            flightNumber: 'CA303',
+                            departureTime: '12:00 PM',
+                            arrivalTime: '03:00 PM',
+                            seatsAvailable: 25,
+                            origin: 'MUMBAI',
+                            destination: 'BANGLORE',
+                            date: '2024-06-17'
+                          },
+                          {
+                            flightNumber: 'DA404',
+                            departureTime: '02:00 PM',
+                            arrivalTime: '05:00 PM',
+                            seatsAvailable: 10,
+                            origin: 'MUMBAI',
+                            destination: 'BANGLORE',
+                            date: '2024-06-17'
+                          },
+                          {
+                              flightNumber: 'AA101',
+                              departureTime: '08:00 AM',
+                              arrivalTime: '11:00 AM',
+                              seatsAvailable: 20,
+                              origin: 'MUMBAI',
+                              destination: 'BANGLORE',
+                              date: '2024-06-18'
+                            },
+                            {
+                              flightNumber: 'BA202',
+                              departureTime: '10:00 AM',
+                              arrivalTime: '01:00 PM',
+                              seatsAvailable: 15,
+                              origin: 'MUMBAI',
+                              destination: 'BANGLORE',
+                              date: '2024-06-18'
+                            },
+                            {
+                              flightNumber: 'CA303',
+                              departureTime: '12:00 PM',
+                              arrivalTime: '03:00 PM',
+                              seatsAvailable: 25,
+                              origin: 'MUMBAI',
+                              destination: 'BANGLORE',
+                              date: '2024-06-18'
+                            },
+                            {
+                              flightNumber: 'DA404',
+                              departureTime: '02:00 PM',
+                              arrivalTime: '05:00 PM',
+                              seatsAvailable: 10,
+                              origin: 'MUMBAI',
+                              destination: 'BANGLORE',
+                              date: '2024-06-18'
+                            },
+                            {
+                              flightNumber: 'AA101',
+                              departureTime: '08:00 AM',
+                              arrivalTime: '11:00 AM',
+                              seatsAvailable: 20,
+                              origin: 'MUMBAI',
+                              destination: 'BANGLORE',
+                              date: '2024-06-19'
+                            },
+                            {
+                              flightNumber: 'BA202',
+                              departureTime: '10:00 AM',
+                              arrivalTime: '01:00 PM',
+                              seatsAvailable: 15,
+                              origin: 'MUMBAI',
+                              destination: 'BANGLORE',
+                              date: '2024-06-19'
+                            },
+                            {
+                              flightNumber: 'CA303',
+                              departureTime: '12:00 PM',
+                              arrivalTime: '03:00 PM',
+                              seatsAvailable: 25,
+                              origin: 'MUMBAI',
+                              destination: 'BANGLORE',
+                              date: '2024-06-19'
+                            },
+                            {
+                              flightNumber: 'DA404',
+                              departureTime: '02:00 PM',
+                              arrivalTime: '05:00 PM',
+                              seatsAvailable: 10,
+                              origin: 'MUMBAI',
+                              destination: 'BANGLORE',
+                              date: '2024-06-19'
+                            },
+                            {
+                              flightNumber: 'AA101',
+                              departureTime: '08:00 AM',
+                              arrivalTime: '11:00 AM',
+                              seatsAvailable: 20,
+                              origin: 'MUMBAI',
+                              destination: 'BANGLORE',
+                              date: '2024-06-20'
+                            },
+                            {
+                              flightNumber: 'BA202',
+                              departureTime: '10:00 AM',
+                              arrivalTime: '01:00 PM',
+                              seatsAvailable: 15,
+                              origin: 'MUMBAI',
+                              destination: 'BANGLORE',
+                              date: '2024-06-20'
+                            },
+                            {
+                              flightNumber: 'CA303',
+                              departureTime: '12:00 PM',
+                              arrivalTime: '03:00 PM',
+                              seatsAvailable: 25,
+                              origin: 'MUMBAI',
+                              destination: 'BANGLORE',
+                              date: '2024-06-20'
+                            },
+                            {
+                              flightNumber: 'DA404',
+                              departureTime: '02:00 PM',
+                              arrivalTime: '05:00 PM',
+                              seatsAvailable: 10,
+                              origin: 'MUMBAI',
+                              destination: 'BANGLORE',
+                              date: '2024-06-20'
+                            },
+                            // MUMBAI TO DELHI
+                            {
+                                flightNumber: 'AA101',
+                                departureTime: '08:00 AM',
+                                arrivalTime: '11:00 AM',
+                                seatsAvailable: 20,
+                                origin: 'MUMBAI',
+                                destination: 'DELHI',
+                                date: '2024-06-17'
+                              },
+                              {
+                                flightNumber: 'BA202',
+                                departureTime: '10:00 AM',
+                                arrivalTime: '01:00 PM',
+                                seatsAvailable: 15,
+                                origin: 'MUMBAI',
+                                destination: 'DELHI',
+                                date: '2024-06-17'
+                              },
+                              {
+                                flightNumber: 'CA303',
+                                departureTime: '12:00 PM',
+                                arrivalTime: '03:00 PM',
+                                seatsAvailable: 25,
+                                origin: 'MUMBAI',
+                                destination: 'DELHI',
+                                date: '2024-06-17'
+                              },
+                              {
+                                flightNumber: 'DA404',
+                                departureTime: '02:00 PM',
+                                arrivalTime: '05:00 PM',
+                                seatsAvailable: 10,
+                                origin: 'MUMBAI',
+                                destination: 'DELHI',
+                                date: '2024-06-17'
+                              },
+                              {
+                                  flightNumber: 'AA101',
+                                  departureTime: '08:00 AM',
+                                  arrivalTime: '11:00 AM',
+                                  seatsAvailable: 20,
+                                  origin: 'MUMBAI',
+                                  destination: 'DELHI',
+                                  date: '2024-06-18'
+                                },
+                                {
+                                  flightNumber: 'BA202',
+                                  departureTime: '10:00 AM',
+                                  arrivalTime: '01:00 PM',
+                                  seatsAvailable: 15,
+                                  origin: 'MUMBAI',
+                                  destination: 'DELHI',
+                                  date: '2024-06-18'
+                                },
+                                {
+                                  flightNumber: 'CA303',
+                                  departureTime: '12:00 PM',
+                                  arrivalTime: '03:00 PM',
+                                  seatsAvailable: 25,
+                                  origin: 'MUMBAI',
+                                  destination: 'DELHI',
+                                  date: '2024-06-18'
+                                },
+                                {
+                                  flightNumber: 'DA404',
+                                  departureTime: '02:00 PM',
+                                  arrivalTime: '05:00 PM',
+                                  seatsAvailable: 10,
+                                  origin: 'MUMBAI',
+                                  destination: 'DELHI',
+                                  date: '2024-06-18'
+                                },
+                                {
+                                  flightNumber: 'AA101',
+                                  departureTime: '08:00 AM',
+                                  arrivalTime: '11:00 AM',
+                                  seatsAvailable: 20,
+                                  origin: 'MUMBAI',
+                                  destination: 'DELHI',
+                                  date: '2024-06-19'
+                                },
+                                {
+                                  flightNumber: 'BA202',
+                                  departureTime: '10:00 AM',
+                                  arrivalTime: '01:00 PM',
+                                  seatsAvailable: 15,
+                                  origin: 'MUMBAI',
+                                  destination: 'DELHI',
+                                  date: '2024-06-19'
+                                },
+                                {
+                                  flightNumber: 'CA303',
+                                  departureTime: '12:00 PM',
+                                  arrivalTime: '03:00 PM',
+                                  seatsAvailable: 25,
+                                  origin: 'MUMBAI',
+                                  destination: 'DELHI',
+                                  date: '2024-06-19'
+                                },
+                                {
+                                  flightNumber: 'DA404',
+                                  departureTime: '02:00 PM',
+                                  arrivalTime: '05:00 PM',
+                                  seatsAvailable: 10,
+                                  origin: 'MUMBAI',
+                                  destination: 'DELHI',
+                                  date: '2024-06-19'
+                                },
+                                {
+                                  flightNumber: 'AA101',
+                                  departureTime: '08:00 AM',
+                                  arrivalTime: '11:00 AM',
+                                  seatsAvailable: 20,
+                                  origin: 'MUMBAI',
+                                  destination: 'DELHI',
+                                  date: '2024-06-20'
+                                },
+                                {
+                                  flightNumber: 'BA202',
+                                  departureTime: '10:00 AM',
+                                  arrivalTime: '01:00 PM',
+                                  seatsAvailable: 15,
+                                  origin: 'MUMBAI',
+                                  destination: 'DELHI',
+                                  date: '2024-06-20'
+                                },
+                                {
+                                  flightNumber: 'CA303',
+                                  departureTime: '12:00 PM',
+                                  arrivalTime: '03:00 PM',
+                                  seatsAvailable: 25,
+                                  origin: 'MUMBAI',
+                                  destination: 'DELHI',
+                                  date: '2024-06-20'
+                                },
+                                {
+                                  flightNumber: 'DA404',
+                                  departureTime: '02:00 PM',
+                                  arrivalTime: '05:00 PM',
+                                  seatsAvailable: 10,
+                                  origin: 'MUMBAI',
+                                  destination: 'DELHI',
+                                  date: '2024-06-20'
+                                },
+                                // MUMBAI TO JAIPUR
+                                {
+                                    flightNumber: 'AA101',
+                                    departureTime: '08:00 AM',
+                                    arrivalTime: '11:00 AM',
+                                    seatsAvailable: 20,
+                                    origin: 'MUMBAI',
+                                    destination: 'JAIPUR',
+                                    date: '2024-06-17'
+                                  },
+                                  {
+                                    flightNumber: 'BA202',
+                                    departureTime: '10:00 AM',
+                                    arrivalTime: '01:00 PM',
+                                    seatsAvailable: 15,
+                                    origin: 'MUMBAI',
+                                    destination: 'JAIPUR',
+                                    date: '2024-06-17'
+                                  },
+                                  {
+                                    flightNumber: 'CA303',
+                                    departureTime: '12:00 PM',
+                                    arrivalTime: '03:00 PM',
+                                    seatsAvailable: 25,
+                                    origin: 'MUMBAI',
+                                    destination: 'JAIPUR',
+                                    date: '2024-06-17'
+                                  },
+                                  {
+                                    flightNumber: 'DA404',
+                                    departureTime: '02:00 PM',
+                                    arrivalTime: '05:00 PM',
+                                    seatsAvailable: 10,
+                                    origin: 'MUMBAI',
+                                    destination: 'JAIPUR',
+                                    date: '2024-06-17'
+                                  },
+                                  {
+                                      flightNumber: 'AA101',
+                                      departureTime: '08:00 AM',
+                                      arrivalTime: '11:00 AM',
+                                      seatsAvailable: 20,
+                                      origin: 'MUMBAI',
+                                      destination: 'JAIPUR',
+                                      date: '2024-06-18'
+                                    },
+                                    {
+                                      flightNumber: 'BA202',
+                                      departureTime: '10:00 AM',
+                                      arrivalTime: '01:00 PM',
+                                      seatsAvailable: 15,
+                                      origin: 'MUMBAI',
+                                      destination: 'JAIPUR',
+                                      date: '2024-06-18'
+                                    },
+                                    {
+                                      flightNumber: 'CA303',
+                                      departureTime: '12:00 PM',
+                                      arrivalTime: '03:00 PM',
+                                      seatsAvailable: 25,
+                                      origin: 'MUMBAI',
+                                      destination: 'JAIPUR',
+                                      date: '2024-06-18'
+                                    },
+                                    {
+                                      flightNumber: 'DA404',
+                                      departureTime: '02:00 PM',
+                                      arrivalTime: '05:00 PM',
+                                      seatsAvailable: 10,
+                                      origin: 'MUMBAI',
+                                      destination: 'JAIPUR',
+                                      date: '2024-06-18'
+                                    },
+                                    {
+                                      flightNumber: 'AA101',
+                                      departureTime: '08:00 AM',
+                                      arrivalTime: '11:00 AM',
+                                      seatsAvailable: 20,
+                                      origin: 'MUMBAI',
+                                      destination: 'JAIPUR',
+                                      date: '2024-06-19'
+                                    },
+                                    {
+                                      flightNumber: 'BA202',
+                                      departureTime: '10:00 AM',
+                                      arrivalTime: '01:00 PM',
+                                      seatsAvailable: 15,
+                                      origin: 'MUMBAI',
+                                      destination: 'JAIPUR',
+                                      date: '2024-06-19'
+                                    },
+                                    {
+                                      flightNumber: 'CA303',
+                                      departureTime: '12:00 PM',
+                                      arrivalTime: '03:00 PM',
+                                      seatsAvailable: 25,
+                                      origin: 'MUMBAI',
+                                      destination: 'JAIPUR',
+                                      date: '2024-06-19'
+                                    },
+                                    {
+                                      flightNumber: 'DA404',
+                                      departureTime: '02:00 PM',
+                                      arrivalTime: '05:00 PM',
+                                      seatsAvailable: 10,
+                                      origin: 'MUMBAI',
+                                      destination: 'JAIPUR',
+                                      date: '2024-06-19'
+                                    },
+                                    {
+                                      flightNumber: 'AA101',
+                                      departureTime: '08:00 AM',
+                                      arrivalTime: '11:00 AM',
+                                      seatsAvailable: 20,
+                                      origin: 'MUMBAI',
+                                      destination: 'JAIPUR',
+                                      date: '2024-06-20'
+                                    },
+                                    {
+                                      flightNumber: 'BA202',
+                                      departureTime: '10:00 AM',
+                                      arrivalTime: '01:00 PM',
+                                      seatsAvailable: 15,
+                                      origin: 'MUMBAI',
+                                      destination: 'JAIPUR',
+                                      date: '2024-06-20'
+                                    },
+                                    {
+                                      flightNumber: 'CA303',
+                                      departureTime: '12:00 PM',
+                                      arrivalTime: '03:00 PM',
+                                      seatsAvailable: 25,
+                                      origin: 'MUMBAI',
+                                      destination: 'JAIPUR',
+                                      date: '2024-06-20'
+                                    },
+                                    {
+                                      flightNumber: 'DA404',
+                                      departureTime: '02:00 PM',
+                                      arrivalTime: '05:00 PM',
+                                      seatsAvailable: 10,
+                                      origin: 'MUMBAI',
+                                      destination: 'JAIPUR',
+                                      date: '2024-06-20'
+                                    },
+                                    // BANGLORE TO DELHI
+                                    {
+                                        flightNumber: 'AA101',
+                                        departureTime: '08:00 AM',
+                                        arrivalTime: '11:00 AM',
+                                        seatsAvailable: 20,
+                                        origin: 'BANGLORE',
+                                        destination: 'DELHI',
+                                        date: '2024-06-17'
+                                      },
+                                      {
+                                        flightNumber: 'BA202',
+                                        departureTime: '10:00 AM',
+                                        arrivalTime: '01:00 PM',
+                                        seatsAvailable: 15,
+                                        origin: 'BANGLORE',
+                                        destination: 'DELHI',
+                                        date: '2024-06-17'
+                                      },
+                                      {
+                                        flightNumber: 'CA303',
+                                        departureTime: '12:00 PM',
+                                        arrivalTime: '03:00 PM',
+                                        seatsAvailable: 25,
+                                        origin: 'BANGLORE',
+                                        destination: 'DELHI',
+                                        date: '2024-06-17'
+                                      },
+                                      {
+                                        flightNumber: 'DA404',
+                                        departureTime: '02:00 PM',
+                                        arrivalTime: '05:00 PM',
+                                        seatsAvailable: 10,
+                                        origin: 'BANGLORE',
+                                        destination: 'DELHI',
+                                        date: '2024-06-17'
+                                      },
+                                      {
+                                          flightNumber: 'AA101',
+                                          departureTime: '08:00 AM',
+                                          arrivalTime: '11:00 AM',
+                                          seatsAvailable: 20,
+                                          origin: 'BANGLORE',
+                                          destination: 'DELHI',
+                                          date: '2024-06-18'
+                                        },
+                                        {
+                                          flightNumber: 'BA202',
+                                          departureTime: '10:00 AM',
+                                          arrivalTime: '01:00 PM',
+                                          seatsAvailable: 15,
+                                          origin: 'BANGLORE',
+                                          destination: 'DELHI',
+                                          date: '2024-06-18'
+                                        },
+                                        {
+                                          flightNumber: 'CA303',
+                                          departureTime: '12:00 PM',
+                                          arrivalTime: '03:00 PM',
+                                          seatsAvailable: 25,
+                                          origin: 'BANGLORE',
+                                          destination: 'DELHI',
+                                          date: '2024-06-18'
+                                        },
+                                        {
+                                          flightNumber: 'DA404',
+                                          departureTime: '02:00 PM',
+                                          arrivalTime: '05:00 PM',
+                                          seatsAvailable: 10,
+                                          origin: 'BANGLORE',
+                                          destination: 'DELHI',
+                                          date: '2024-06-18'
+                                        },
+                                        {
+                                          flightNumber: 'AA101',
+                                          departureTime: '08:00 AM',
+                                          arrivalTime: '11:00 AM',
+                                          seatsAvailable: 20,
+                                          origin: 'BANGLORE',
+                                          destination: 'DELHI',
+                                          date: '2024-06-19'
+                                        },
+                                        {
+                                          flightNumber: 'BA202',
+                                          departureTime: '10:00 AM',
+                                          arrivalTime: '01:00 PM',
+                                          seatsAvailable: 15,
+                                          origin: 'BANGLORE',
+                                          destination: 'DELHI',
+                                          date: '2024-06-19'
+                                        },
+                                        {
+                                          flightNumber: 'CA303',
+                                          departureTime: '12:00 PM',
+                                          arrivalTime: '03:00 PM',
+                                          seatsAvailable: 25,
+                                          origin: 'BANGLORE',
+                                          destination: 'DELHI',
+                                          date: '2024-06-19'
+                                        },
+                                        {
+                                          flightNumber: 'DA404',
+                                          departureTime: '02:00 PM',
+                                          arrivalTime: '05:00 PM',
+                                          seatsAvailable: 10,
+                                          origin: 'BANGLORE',
+                                          destination: 'DELHI',
+                                          date: '2024-06-19'
+                                        },
+                                        {
+                                          flightNumber: 'AA101',
+                                          departureTime: '08:00 AM',
+                                          arrivalTime: '11:00 AM',
+                                          seatsAvailable: 20,
+                                          origin: 'BANGLORE',
+                                          destination: 'DELHI',
+                                          date: '2024-06-20'
+                                        },
+                                        {
+                                          flightNumber: 'BA202',
+                                          departureTime: '10:00 AM',
+                                          arrivalTime: '01:00 PM',
+                                          seatsAvailable: 15,
+                                          origin: 'BANGLORE',
+                                          destination: 'DELHI',
+                                          date: '2024-06-20'
+                                        },
+                                        {
+                                          flightNumber: 'CA303',
+                                          departureTime: '12:00 PM',
+                                          arrivalTime: '03:00 PM',
+                                          seatsAvailable: 25,
+                                          origin: 'BANGLORE',
+                                          destination: 'DELHI',
+                                          date: '2024-06-20'
+                                        },
+                                        {
+                                          flightNumber: 'DA404',
+                                          departureTime: '02:00 PM',
+                                          arrivalTime: '05:00 PM',
+                                          seatsAvailable: 10,
+                                          origin: 'BANGLORE',
+                                          destination: 'DELHI',
+                                          date: '2024-06-20'
+                                        },
+                                        // BANGLORE TO JAIPUR
+                                        {
+                                            flightNumber: 'AA101',
+                                            departureTime: '08:00 AM',
+                                            arrivalTime: '11:00 AM',
+                                            seatsAvailable: 20,
+                                            origin: 'BANGLORE',
+                                            destination: 'JAIPUR',
+                                            date: '2024-06-17'
+                                          },
+                                          {
+                                            flightNumber: 'BA202',
+                                            departureTime: '10:00 AM',
+                                            arrivalTime: '01:00 PM',
+                                            seatsAvailable: 15,
+                                            origin: 'BANGLORE',
+                                            destination: 'JAIPUR',
+                                            date: '2024-06-17'
+                                          },
+                                          {
+                                            flightNumber: 'CA303',
+                                            departureTime: '12:00 PM',
+                                            arrivalTime: '03:00 PM',
+                                            seatsAvailable: 25,
+                                            origin: 'BANGLORE',
+                                            destination: 'JAIPUR',
+                                            date: '2024-06-17'
+                                          },
+                                          {
+                                            flightNumber: 'DA404',
+                                            departureTime: '02:00 PM',
+                                            arrivalTime: '05:00 PM',
+                                            seatsAvailable: 10,
+                                            origin: 'BANGLORE',
+                                            destination: 'JAIPUR',
+                                            date: '2024-06-17'
+                                          },
+                                          {
+                                              flightNumber: 'AA101',
+                                              departureTime: '08:00 AM',
+                                              arrivalTime: '11:00 AM',
+                                              seatsAvailable: 20,
+                                              origin: 'BANGLORE',
+                                              destination: 'JAIPUR',
+                                              date: '2024-06-18'
+                                            },
+                                            {
+                                              flightNumber: 'BA202',
+                                              departureTime: '10:00 AM',
+                                              arrivalTime: '01:00 PM',
+                                              seatsAvailable: 15,
+                                              origin: 'BANGLORE',
+                                              destination: 'JAIPUR',
+                                              date: '2024-06-18'
+                                            },
+                                            {
+                                              flightNumber: 'CA303',
+                                              departureTime: '12:00 PM',
+                                              arrivalTime: '03:00 PM',
+                                              seatsAvailable: 25,
+                                              origin: 'BANGLORE',
+                                              destination: 'JAIPUR',
+                                              date: '2024-06-18'
+                                            },
+                                            {
+                                              flightNumber: 'DA404',
+                                              departureTime: '02:00 PM',
+                                              arrivalTime: '05:00 PM',
+                                              seatsAvailable: 10,
+                                              origin: 'BANGLORE',
+                                              destination: 'JAIPUR',
+                                              date: '2024-06-18'
+                                            },
+                                            {
+                                              flightNumber: 'AA101',
+                                              departureTime: '08:00 AM',
+                                              arrivalTime: '11:00 AM',
+                                              seatsAvailable: 20,
+                                              origin: 'BANGLORE',
+                                              destination: 'JAIPUR',
+                                              date: '2024-06-19'
+                                            },
+                                            {
+                                              flightNumber: 'BA202',
+                                              departureTime: '10:00 AM',
+                                              arrivalTime: '01:00 PM',
+                                              seatsAvailable: 15,
+                                              origin: 'BANGLORE',
+                                              destination: 'JAIPUR',
+                                              date: '2024-06-19'
+                                            },
+                                            {
+                                              flightNumber: 'CA303',
+                                              departureTime: '12:00 PM',
+                                              arrivalTime: '03:00 PM',
+                                              seatsAvailable: 25,
+                                              origin: 'BANGLORE',
+                                              destination: 'JAIPUR',
+                                              date: '2024-06-19'
+                                            },
+                                            {
+                                              flightNumber: 'DA404',
+                                              departureTime: '02:00 PM',
+                                              arrivalTime: '05:00 PM',
+                                              seatsAvailable: 10,
+                                              origin: 'BANGLORE',
+                                              destination: 'JAIPUR',
+                                              date: '2024-06-19'
+                                            },
+                                            {
+                                              flightNumber: 'AA101',
+                                              departureTime: '08:00 AM',
+                                              arrivalTime: '11:00 AM',
+                                              seatsAvailable: 20,
+                                              origin: 'BANGLORE',
+                                              destination: 'JAIPUR',
+                                              date: '2024-06-20'
+                                            },
+                                            {
+                                              flightNumber: 'BA202',
+                                              departureTime: '10:00 AM',
+                                              arrivalTime: '01:00 PM',
+                                              seatsAvailable: 15,
+                                              origin: 'BANGLORE',
+                                              destination: 'JAIPUR',
+                                              date: '2024-06-20'
+                                            },
+                                            {
+                                              flightNumber: 'CA303',
+                                              departureTime: '12:00 PM',
+                                              arrivalTime: '03:00 PM',
+                                              seatsAvailable: 25,
+                                              origin: 'BANGLORE',
+                                              destination: 'JAIPUR',
+                                              date: '2024-06-20'
+                                            },
+                                            {
+                                              flightNumber: 'DA404',
+                                              departureTime: '02:00 PM',
+                                              arrivalTime: '05:00 PM',
+                                              seatsAvailable: 10,
+                                              origin: 'BANGLORE',
+                                              destination: 'JAIPUR',
+                                              date: '2024-06-20'
+                                            },
+                                            // BANGLORE TO MUMBAI
+                                            {
+                                                flightNumber: 'AA101',
+                                                departureTime: '08:00 AM',
+                                                arrivalTime: '11:00 AM',
+                                                seatsAvailable: 20,
+                                                origin: 'BANGLORE',
+                                                destination: 'MUMBAI',
+                                                date: '2024-06-17'
+                                              },
+                                              {
+                                                flightNumber: 'BA202',
+                                                departureTime: '10:00 AM',
+                                                arrivalTime: '01:00 PM',
+                                                seatsAvailable: 15,
+                                                origin: 'BANGLORE',
+                                                destination: 'MUMBAI',
+                                                date: '2024-06-17'
+                                              },
+                                              {
+                                                flightNumber: 'CA303',
+                                                departureTime: '12:00 PM',
+                                                arrivalTime: '03:00 PM',
+                                                seatsAvailable: 25,
+                                                origin: 'BANGLORE',
+                                                destination: 'MUMBAI',
+                                                date: '2024-06-17'
+                                              },
+                                              {
+                                                flightNumber: 'DA404',
+                                                departureTime: '02:00 PM',
+                                                arrivalTime: '05:00 PM',
+                                                seatsAvailable: 10,
+                                                origin: 'BANGLORE',
+                                                destination: 'MUMBAI',
+                                                date: '2024-06-17'
+                                              },
+                                              {
+                                                  flightNumber: 'AA101',
+                                                  departureTime: '08:00 AM',
+                                                  arrivalTime: '11:00 AM',
+                                                  seatsAvailable: 20,
+                                                  origin: 'BANGLORE',
+                                                  destination: 'MUMBAI',
+                                                  date: '2024-06-18'
+                                                },
+                                                {
+                                                  flightNumber: 'BA202',
+                                                  departureTime: '10:00 AM',
+                                                  arrivalTime: '01:00 PM',
+                                                  seatsAvailable: 15,
+                                                  origin: 'BANGLORE',
+                                                  destination: 'MUMBAI',
+                                                  date: '2024-06-18'
+                                                },
+                                                {
+                                                  flightNumber: 'CA303',
+                                                  departureTime: '12:00 PM',
+                                                  arrivalTime: '03:00 PM',
+                                                  seatsAvailable: 25,
+                                                  origin: 'BANGLORE',
+                                                  destination: 'MUMBAI',
+                                                  date: '2024-06-18'
+                                                },
+                                                {
+                                                  flightNumber: 'DA404',
+                                                  departureTime: '02:00 PM',
+                                                  arrivalTime: '05:00 PM',
+                                                  seatsAvailable: 10,
+                                                  origin: 'BANGLORE',
+                                                  destination: 'MUMBAI',
+                                                  date: '2024-06-18'
+                                                },
+                                                {
+                                                  flightNumber: 'AA101',
+                                                  departureTime: '08:00 AM',
+                                                  arrivalTime: '11:00 AM',
+                                                  seatsAvailable: 20,
+                                                  origin: 'BANGLORE',
+                                                  destination: 'MUMBAI',
+                                                  date: '2024-06-19'
+                                                },
+                                                {
+                                                  flightNumber: 'BA202',
+                                                  departureTime: '10:00 AM',
+                                                  arrivalTime: '01:00 PM',
+                                                  seatsAvailable: 15,
+                                                  origin: 'BANGLORE',
+                                                  destination: 'MUMBAI',
+                                                  date: '2024-06-19'
+                                                },
+                                                {
+                                                  flightNumber: 'CA303',
+                                                  departureTime: '12:00 PM',
+                                                  arrivalTime: '03:00 PM',
+                                                  seatsAvailable: 25,
+                                                  origin: 'BANGLORE',
+                                                  destination: 'MUMBAI',
+                                                  date: '2024-06-19'
+                                                },
+                                                {
+                                                  flightNumber: 'DA404',
+                                                  departureTime: '02:00 PM',
+                                                  arrivalTime: '05:00 PM',
+                                                  seatsAvailable: 10,
+                                                  origin: 'BANGLORE',
+                                                  destination: 'MUMBAI',
+                                                  date: '2024-06-19'
+                                                },
+                                                {
+                                                  flightNumber: 'AA101',
+                                                  departureTime: '08:00 AM',
+                                                  arrivalTime: '11:00 AM',
+                                                  seatsAvailable: 20,
+                                                  origin: 'BANGLORE',
+                                                  destination: 'MUMBAI',
+                                                  date: '2024-06-20'
+                                                },
+                                                {
+                                                  flightNumber: 'BA202',
+                                                  departureTime: '10:00 AM',
+                                                  arrivalTime: '01:00 PM',
+                                                  seatsAvailable: 15,
+                                                  origin: 'BANGLORE',
+                                                  destination: 'MUMBAI',
+                                                  date: '2024-06-20'
+                                                },
+                                                {
+                                                  flightNumber: 'CA303',
+                                                  departureTime: '12:00 PM',
+                                                  arrivalTime: '03:00 PM',
+                                                  seatsAvailable: 25,
+                                                  origin: 'BANGLORE',
+                                                  destination: 'MUMBAI',
+                                                  date: '2024-06-20'
+                                                },
+                                                {
+                                                  flightNumber: 'DA404',
+                                                  departureTime: '02:00 PM',
+                                                  arrivalTime: '05:00 PM',
+                                                  seatsAvailable: 10,
+                                                  origin: 'BANGLORE',
+                                                  destination: 'MUMBAI',
+                                                  date: '2024-06-20'
+                                                },
+
+      // Add more flights for other dates
+    ];
+    
+    function searchFlights() {
+      const origin = document.getElementById('origin').value.toUpperCase();
+      const destination = document.getElementById('destination').value.toUpperCase();
+      const date = document.getElementById('date').value;
+      
+      if (!origin ||!destination ||!date) {
+        alert('Please fill all fields');
+        return;
+      }
+      
+      const results = flightData.filter(flight => 
+        flight.origin === origin && 
+        flight.destination === destination && 
+        flight.date === date
+      );
+      
+      displayFlights(results);
+    }
+    
+    function displayFlights(flights) {
+      const flightsContainer = document.getElementById('flights');
+      flightsContainer.innerHTML = '';
+      
+      if (flights.length === 0) {
+        flightsContainer.innerHTML = '<p>No flights found</p>';
+        return;
+      }
+      
+      flights.forEach(flight => {
+        const flightDiv = document.createElement('div');
+        flightDiv.className = 'flight';
+        flightDiv.innerHTML = `
+          <h3>Flight: ${flight.flightNumber}</h3>
+          <p>Departure: ${flight.departureTime}</p>
+          <p>Arrival: ${flight.arrivalTime}</p>
+          <p>Seats Available: ${flight.seatsAvailable}</p>
+          <button onclick="bookFlight('${flight.flightNumber}', '${flight.departureTime}', '${flight.arrivalTime}')">Book</button>
+        `;
+        flightsContainer.appendChild(flightDiv);
+      });
+    }
+    
+    function bookFlight(flightNumber, departureTime, arrivalTime) {
+      // Redirect to payment page with flight details
+      window.location.href = `payment2.html?flightNumber=${flightNumber}&departureTime=${departureTime}&arrivalTime=${arrivalTime}`;
+    }
+  </script>
+  <footer>
+    <div class="footer">
+        <p>&copy; 2024 Airline Management System. All rights reserved.</p>
+    </div>
+  </footer>
+</body>
+</html>
